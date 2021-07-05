@@ -17,7 +17,7 @@ int main() {
             diffs[i] = values[i];
     }
 
-    int pos_pool = 0, neg_pool = 0;
+    long long pos_pool = 0, neg_pool = 0;
     for (int i = 1; i < length; i++) {
         if (diffs[i] > 0)
             pos_pool += diffs[i];
@@ -25,8 +25,8 @@ int main() {
             neg_pool += -diffs[i];
     }
 
-    int op_count = max(pos_pool, neg_pool);
-    int variety_count = abs(pos_pool + neg_pool) + 1;
+    long long op_count = max(pos_pool, neg_pool);
+    long long variety_count = abs(pos_pool - neg_pool) + 1;
 
     cout << op_count << endl << variety_count;
 
