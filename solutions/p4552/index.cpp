@@ -18,40 +18,20 @@ int main() {
     }
 
     int op_count = 0, variety_count = 1;
-    while (true) {
-        const int NOT_FOUND = -1;
+    int pool = 0;
 
-        int pos_i = NOT_FOUND, neg_i = NOT_FOUND;
-        for (int i = 0; i < length; i++) {
-            if (pos_i != NOT_FOUND && neg_i != NOT_FOUND)
-                break;
-            if (pos_i == NOT_FOUND && diffs[i] > 0)
-                pos_i = i;
-            if (neg_i == NOT_FOUND && diffs[i] < 0)
-                neg_i = i;
-        }
-
-        if (pos_i != NOT_FOUND && neg_i != NOT_FOUND) {
-            int gap = min(diffs[pos_i], abs(diffs[neg_i]));
-            op_count += gap;
-            diffs[pos_i] -= gap;
-            diffs[neg_i] += gap;
-        } else if (pos_i == NOT_FOUND && neg_i == NOT_FOUND) {
-            break;
-        } else if (pos_i == NOT_FOUND) {
-            int gap = abs(diffs[neg_i]);
-            op_count += gap;
-            variety_count += gap;
-            break;
-        } else if (neg_i == NOT_FOUND) {
-            int gap = diffs[pos_i];
-            op_count += gap;
-            variety_count += gap;
-            break;
+    for (int i = 1; i < length; i++) {
+        if (pool > 0 && diffs[i] > 0 || pool < 0 && diffs[i] < 0) {
+            pool += diffs[i];
         } else {
-            "just prefer `else if`";
+            op_count += abs(pool) < abs(diffs[i]) ? abs(pool) : abs(diffs[i]);
+            pool += diffs[i];
         }
     }
+
+    op_count += abs(pool);
+    diffs[0] += pool;
+    variety_count += abs(pool);
 
     cout << op_count << endl << variety_count;
 
