@@ -17,21 +17,16 @@ int main() {
             diffs[i] = values[i];
     }
 
-    int op_count = 0, variety_count = 1;
-    int pool = 0;
-
+    int pos_pool = 0, neg_pool = 0;
     for (int i = 1; i < length; i++) {
-        if (pool > 0 && diffs[i] > 0 || pool < 0 && diffs[i] < 0) {
-            pool += diffs[i];
-        } else {
-            op_count += abs(pool) < abs(diffs[i]) ? abs(pool) : abs(diffs[i]);
-            pool += diffs[i];
-        }
+        if (diffs[i] > 0)
+            pos_pool += diffs[i];
+        if (diffs[i] < 0)
+            neg_pool += -diffs[i];
     }
 
-    op_count += abs(pool);
-    diffs[0] += pool;
-    variety_count += abs(pool);
+    int op_count = max(pos_pool, neg_pool);
+    int variety_count = abs(pos_pool + neg_pool) + 1;
 
     cout << op_count << endl << variety_count;
 
