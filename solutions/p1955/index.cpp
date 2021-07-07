@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-const int MAX_NODE_COUNT = 10000;
+const int MAX_NODE_COUNT = 100000;
 const int MAX_COND_COUNT = 100000;
 
 int parent_node_map[MAX_NODE_COUNT + 5];
@@ -57,9 +57,10 @@ void handle_conditions() {
     for (int i = 0; i < cond_count; i++) {
         if (eq_conds[i].type == EQ)
             continue;
-        if (in_same_tree(eq_conds[i].x1, eq_conds[i].x2))
+        if (in_same_tree(eq_conds[i].x1, eq_conds[i].x2)) {
             cout << "NO" << endl;
             return;
+        }
     }
 
     cout << "YES" << endl;
