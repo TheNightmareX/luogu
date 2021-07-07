@@ -1,7 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-const int MAX_NODE_COUNT = 100000;
+const int MAX_NODE_COUNT = 10000;
+const int MAX_COND_COUNT = 100000;
 
 int parent_node_map[MAX_NODE_COUNT + 5];
 
@@ -36,23 +37,29 @@ void handle_conditions() {
     cin >> cond_count;
 
     const int EQ = 1, NE = 0;
+    
+    struct {
+        int x1, x2, type;
+    } eq_conds[MAX_COND_COUNT + 5];
 
-    bool tree_type;
-    for (int ii = 0; ii < cond_count; ii++) {
-        int x1, x2, cond_type;
-        cin >> x1 >> x2 >> cond_type;
+    for (int i = 0; i < cond_count; i++) {
+        int x1, x2, type;
+        cin >> x1 >> x2 >> type;
+        eq_conds[i] = { x1, x2, type };
+    }
 
-        if (!ii)
-            tree_type = cond_type;
+    for (int i = 0; i < cond_count; i++) {
+        if (eq_conds[i].type == NE)
+            continue;
+        merge_trees(eq_conds[i].x1, eq_conds[i].x2);
+    }
 
-        if (cond_type == tree_type) {
-            merge_trees(x1, x2);
-        } else {
-            if (in_same_tree(x1, x2)) {
-                cout << "NO" << endl;
-                return;
-            }
-        }
+    for (int i = 0; i < cond_count; i++) {
+        if (eq_conds[i].type == EQ)
+            continue;
+        if (in_same_tree(eq_conds[i].x1, eq_conds[i].x2))
+            cout << "NO" << endl;
+            return;
     }
 
     cout << "YES" << endl;
