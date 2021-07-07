@@ -1,15 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-const int MAX_NODE_COUNT = 100000;
-const int MAX_COND_COUNT = 100000;
-
-int parent_node_map[MAX_NODE_COUNT + 5];
-
-void init_trees() {
-    for (int node = 0; node < MAX_NODE_COUNT; node++)
-        parent_node_map[node] = node;
-}
+map<int, int> parent_node_map;
 
 int get_root_node(int node) {
     int parent_node = parent_node_map[node];
@@ -36,6 +28,7 @@ void handle_conditions() {
     int cond_count;
     cin >> cond_count;
 
+    const int MAX_COND_COUNT = 100000;
     const int EQ = 1, NE = 0;
     
     struct {
@@ -46,6 +39,8 @@ void handle_conditions() {
         int x1, x2, type;
         cin >> x1 >> x2 >> type;
         eq_conds[i] = { x1, x2, type };
+        parent_node_map[x1] = x1;
+        parent_node_map[x2] = x2;
     }
 
     for (int i = 0; i < cond_count; i++) {
@@ -72,7 +67,7 @@ int main() {
     cin >> group_count;
 
     for (int i = 0; i < group_count; i++) {
-        init_trees();
+        parent_node_map.clear();
         handle_conditions();
     }
 
